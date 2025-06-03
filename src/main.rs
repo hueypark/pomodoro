@@ -36,7 +36,7 @@ struct PomodoroText;
 fn pomodoro_timer_system(
     time: Res<Time>,
     mut timer: ResMut<PomodoroTimer>,
-    mut query: Query<(&mut Text2d, &mut TextFont), With<PomodoroText>>,
+    mut query: Query<&mut Text2d, With<PomodoroText>>,
     mut cmds: Commands,
     asset_server: Res<AssetServer>,
     mut end: Local<bool>,
@@ -52,7 +52,7 @@ fn pomodoro_timer_system(
         let secs = timer.remaining().as_secs();
         let min = secs / 60;
         let sec = secs % 60;
-        if let Ok((mut text, _)) = query.single_mut() {
+        if let Ok(mut text) = query.single_mut() {
             text.0 = format!("{:02}:{:02}", min, sec);
         }
 
@@ -61,7 +61,7 @@ fn pomodoro_timer_system(
 
     *end = true;
 
-    if let Ok((mut text, _)) = query.single_mut() {
+    if let Ok(mut text) = query.single_mut() {
         text.0 = "Time's up!".to_string();
     }
 
