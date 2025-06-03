@@ -5,3 +5,10 @@ edition = "2024"
 
 [dependencies]
 bevy = { version = "0.16.0", features = ["wav"] }
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+incremental = false
+debug = false
