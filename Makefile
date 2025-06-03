@@ -4,7 +4,7 @@
 APP_NAME := pomodoro
 TARGET := wasm32-unknown-unknown
 RELEASE_DIR := target/$(TARGET)/release
-DIST_DIR := dist
+DIST_DIR := docs
 ASSETS_DIR := assets
 
 .PHONY: all build copy-assets copy-wasm copy-html dist clean serve
