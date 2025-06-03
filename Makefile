@@ -6,17 +6,17 @@ TARGET := wasm32-unknown-unknown
 RELEASE_DIR := target/$(TARGET)/release
 DIST_DIR := docs
 ASSETS_DIR := assets
+WASM_BINDGEN := wasm-bindgen
 
-.PHONY: all build copy-assets copy-wasm copy-html dist clean serve
+.PHONY: all build bindgen copy-assets copy-html dist clean serve
 
 all: dist
 
 build:
 	cargo build --release --target $(TARGET)
 
-copy-wasm: build
-	@mkdir -p $(DIST_DIR)
-	cp $(RELEASE_DIR)/$(APP_NAME).wasm $(DIST_DIR)/
+bindgen: build
+	$(WASM_BINDGEN) --target web --no-typescript --out-dir $(DIST_DIR) $(RELEASE_DIR)/$(APP_NAME).wasm
 
 copy-assets:
 	@mkdir -p $(DIST_DIR)
@@ -26,7 +26,7 @@ copy-html:
 	@mkdir -p $(DIST_DIR)
 	cp index.html $(DIST_DIR)/
 
-dist: copy-wasm copy-assets copy-html
+dist: bindgen copy-assets copy-html
 
 clean:
 	rm -rf $(DIST_DIR)
